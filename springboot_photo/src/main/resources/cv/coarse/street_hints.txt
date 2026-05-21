@@ -1,0 +1,67 @@
+# 子串命中 → 街景（城市、交通、建筑与人工设施）
+beacon
+dock
+lighthouse
+breakwater
+viaduct
+stone wall
+streetcar
+traffic light
+street sign
+parking meter
+fire engine
+moving van
+school bus
+trailer truck
+cab
+convertible
+sports car
+pickup
+limousine
+minivan
+jeep
+police van
+recreational vehicle
+racer
+go-kart
+golfcart
+moped
+trolleybus
+palace
+monastery
+library
+triumphal arch
+castle
+bell cote
+vault
+dome
+prison
+grocery store
+confectionery
+butcher shop
+barbershop
+bookstore
+toyshop
+shoe shop
+tobacco shop
+restaurant
+cinema
+home theater
+lumbermill
+steel arch bridge
+suspension bridge
+pier
+turnstile
+chainlink fence
+picket fence
+worm fence
+mobile home
+planetarium
+radio telescope
+solar dish
+obelisk
+fountain
+sliding door
+revolving door
+pay-phone
+mailbox

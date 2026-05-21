@@ -1,0 +1,56 @@
+# 复制为 application-local.properties 后按需填写（示例仓库内可保留；真实密钥勿提交）
+
+# 主配置已通过 spring.config.import 自动加载 optional 的 application-local.properties
+
+
+
+spring.mail.username=你的QQ邮箱@qq.com
+
+spring.mail.password=QQ邮箱SMTP授权码
+
+
+
+spring.data.redis.password=Redis密码
+
+
+
+# 可选：覆盖作品上传根目录（环境变量，避免中文路径编码问题）
+
+# APP_UPLOAD_ROOT=D:/photo-upload
+
+
+
+# ========== 作品 AI 自动分类（云端视觉，至少填一个 Key）==========
+
+# 豆包：火山引擎方舟 https://console.volcengine.com/ark 创建 API Key 与视觉模型接入点
+
+app.vision.providers.doubao.api-key=你的豆包方舟API密钥
+
+# 若使用「推理接入点」，把 model 改成控制台里的 ep-xxxx（见 application.yml）
+
+# app.vision.providers.doubao.model=ep-xxxxxxxx-xxxxx
+
+
+
+# DeepSeek：https://platform.deepseek.com/api_keys （需支持图像的模型/额度）
+
+app.vision.providers.deepseek.api-key=你的DeepSeek密钥
+
+
+
+# 通义千问（DashScope）：https://dashscope.console.aliyun.com/
+
+app.vision.providers.qwen.api-key=你的通义API密钥
+
+
+
+# 智谱：https://open.bigmodel.cn/usercenter/apikeys
+
+app.vision.providers.zhipu.api-key=你的智谱API密钥
+
+
+
+# 调整调用顺序（额度用尽会自动换下一个）
+
+# app.vision.provider-order=doubao,qwen,deepseek,zhipu
+

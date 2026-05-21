@@ -1,0 +1,118 @@
+.cover-crop-overlay {
+  z-index: 12050;
+}
+
+.cover-crop-dialog {
+  width: min(720px, calc(100vw - 32px));
+  max-height: min(92vh, 920px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cover-crop-intro {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(203, 213, 245, 0.78);
+}
+
+.cover-crop-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cover-crop-frame__label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(165, 180, 252, 0.95);
+}
+
+.cover-crop-stage {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(129, 140, 248, 0.35);
+  background: #0a0c12;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.cover-crop-stage:active {
+  cursor: grabbing;
+}
+
+.cover-crop-stage--interactive:focus-visible {
+  outline: 2px solid rgba(129, 140, 248, 0.75);
+  outline-offset: 2px;
+}
+
+.cover-crop-stage__img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.cover-crop-stage__hint {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: rgba(248, 250, 252, 0.92);
+  background: rgba(6, 8, 14, 0.62);
+  text-align: center;
+  pointer-events: none;
+}
+
+.cover-crop-rest-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.cover-crop-stage--mini {
+  border-color: rgba(255, 255, 255, 0.12);
+  cursor: default;
+}
+
+.cover-crop-sliders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+}
+
+.cover-crop-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(203, 213, 245, 0.85);
+}
+
+.cover-crop-slider input[type='range'] {
+  width: 100%;
+  accent-color: #6366f1;
+}
+
+.cover-crop-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+@media (max-width: 560px) {
+  .cover-crop-rest-row,
+  .cover-crop-sliders {
+    grid-template-columns: 1fr;
+  }
+}

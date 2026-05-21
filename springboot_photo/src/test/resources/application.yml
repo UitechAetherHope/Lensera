@@ -1,0 +1,9 @@
+# 单元测试不连本机 Redis：关闭作品流缓存并排除 Redis 自动配置
+app:
+  redis:
+    feed-cache-enabled: false
+
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration

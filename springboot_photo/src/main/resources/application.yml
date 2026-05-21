@@ -1,0 +1,65 @@
+# 作品图片根目录：放在 YAML 里用 UTF-8 解析，避免 .properties 在部分环境/IDE 下
+# 把 UTF-8 中文误读成 ISO-8859-1 字节从而在磁盘上创建乱码文件夹名。
+#
+# --- 作品 AI 分类：已改用云端视觉大模型（豆包/DeepSeek/通义/智谱），本地 DJL 默认关闭 ---
+logging:
+  level:
+    com.photoblog.springboot_photo.service.vision: INFO
+
+# Redis：作品流 /api/works/feed 缓存（无 Redis 时设 app.redis.feed-cache-enabled: false，并排除 Redis 自动配置见 README）
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 3s
+
+# 作品上传图：JPEG/PNG（及可被 ImageIO 解码的 WebP）会转存为最长边 ≤1920 的 JPG（质量约 0.85）；GIF 不动；过大单文件拒绝（见 WorkService）
+app:
+  redis:
+    # 未装 Redis 时改为 false，并在启动参数增加：
+    # --spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+    feed-cache-enabled: true
+    feed-cache-ttl-seconds: 120
+    # 博客阅读数 / 评论点赞：Redis 去重与计数，定时落库
+    blog-stats-enabled: true
+    blog-stats-flush-interval-ms: 60000
+    blog-stats-flush-lock-seconds: 55
+  upload:
+    # 本地默认路径；Docker 由 APP_UPLOAD_ROOT=/data/Photo_base 覆盖
+    root: ${APP_UPLOAD_ROOT:C:/Users/MN/Desktop/比赛/计算机设计/第十九届计算机设计大赛/全栈/Photo_base}
+  cors:
+    allowed-origin-patterns: http://localhost:5173,http://127.0.0.1:5173
+  # 本地 DJL（已弃用，无需 JDK native 参数）
+  cv:
+    enabled: false
+    async: true
+    onnx-model-url: ""
+    onnx-synset-url: ""
+  # 云端视觉分类：API Key 写在 application-local.properties；额度用尽按 provider-order 自动降级
+  vision:
+    enabled: true
+    async: true
+    provider-order: doubao,deepseek,qwen,zhipu
+    providers:
+      doubao:
+        display-name: 豆包
+        base-url: https://ark.cn-beijing.volces.com/api/v3
+        # 火山方舟控制台创建的「推理接入点 ID」或视觉模型名，例如 doubao-1-5-vision-pro-32k-250115
+        model: doubao-seed-1-6-vision-250815
+        api-key: ${DOUBAO_API_KEY:}
+      deepseek:
+        display-name: DeepSeek
+        base-url: https://api.deepseek.com
+        model: deepseek-chat
+        api-key: ${DEEPSEEK_API_KEY:}
+      qwen:
+        display-name: 通义千问
+        base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+        model: qwen-vl-plus
+        api-key: ${QWEN_API_KEY:}
+      zhipu:
+        display-name: 智谱
+        base-url: https://open.bigmodel.cn/api/paas/v4
+        model: glm-4v-flash
+        api-key: ${ZHIPU_API_KEY:}

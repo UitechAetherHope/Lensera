@@ -1,0 +1,237 @@
+# 子串命中 → 动物。仅保留与 ImageNet 类名强相关的片段，避免「acorn」等误伤。
+greater swiss mountain dog
+african hunting dog
+labrador retriever
+golden retriever
+siberian husky
+german shepherd
+doberman
+rottweiler
+miniature pinscher
+great dane
+saint bernard
+tibetan mastiff
+french bulldog
+newfoundland
+samoyed
+pomeranian
+chow chow
+keeshond
+brabancon griffon
+pembroke welsh corgi
+cardigan welsh corgi
+toy poodle
+miniature poodle
+standard poodle
+mexican hairless
+affenpinscher
+basenji
+pug
+leonberg
+african elephant
+indian elephant
+tusker
+sorrel
+zebra
+warthog
+hippopotamus
+hippo
+river horse
+hartebeest
+impala
+gazelle
+llama
+orangutan
+gorilla
+chimpanzee
+gibbon
+siamang
+guenon
+wallaby
+wombat
+water buffalo
+asian buffalo
+american bison
+bison
+oxcart
+wild boar
+lesser panda
+giant panda
+brown bear
+american black bear
+ice bear
+red wolf
+coyote
+dingo
+dhole
+african wild dog
+hyena
+red fox
+kit fox
+grey fox
+tabby cat
+persian cat
+siamese cat
+egyptian cat
+lion
+tiger
+cheetah
+snow leopard
+jaguar
+leopard
+clouded leopard
+lynx
+bobcat
+mongoose
+meerkat
+tiger beetle
+ladybug
+ground beetle
+long-horned beetle
+leaf beetle
+dung beetle
+rhinoceros beetle
+weevil
+leafhopper
+grasshopper
+cricket
+walking stick
+cockroach
+mantis
+dragonfly
+damselfly
+admiral
+ringlet
+monarch
+cabbage butterfly
+sulphur butterfly
+lycaenid
+jellyfish
+sea anemone
+brain coral
+rock beauty
+flatworm
+nematode
+conch
+sea slug
+chiton
+chambered nautilus
+king crab
+american lobster
+spiny lobster
+crayfish
+hermit crab
+isopod
+white shark
+great white shark
+hammerhead
+electric ray
+stingray
+coho
+tench
+goldfish
+gar
+lionfish
+puffer
+sturgeon
+barracuda
+loggerhead
+leatherback
+mud turtle
+terrapin
+box turtle
+banded gecko
+komodo dragon
+monitor lizard
+american alligator
+african crocodile
+boa constrictor
+rock python
+indian cobra
+green mamba
+sea snake
+horned viper
+diamondback
+triceratops
+thunder snake
+ringneck snake
+hognose snake
+green snake
+king snake
+garter snake
+water snake
+vine snake
+night snake
+sidewinder
+european green lizard
+african chameleon
+american chameleon
+agama
+frilled lizard
+alligator lizard
+gila monster
+common iguana
+dugong
+sea lion
+grey whale
+killer whale
+manatee
+mink
+otter
+skunk
+badger
+echidna
+platypus
+wallaby
+koala
+wombat
+goose
+drake
+pelican
+king penguin
+albatross
+spoonbill
+flamingo
+little blue heron
+american egret
+bittern
+limpkin
+bustard
+ruffed grouse
+prairie chicken
+peacock
+quail
+partridge
+african grey
+macaw
+sulphur-crested cockatoo
+lorikeet
+coucal
+bee eater
+hornbill
+hummingbird
+jacamar
+toucan
+ostrich
+brambling
+goldfinch
+house finch
+junco
+indigo bunting
+robin
+bulbul
+jay
+magpie
+chickadee
+water ouzel
+kite
+bald eagle
+vulture
+great grey owl
+european fire salamander
+common newt
+eft
+spotted salamander
+axolotl
+tree frog
+tailed frog

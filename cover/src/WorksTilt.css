@@ -1,0 +1,197 @@
+.mine-tilt-works-root {
+  min-height: 100vh;
+  background-color: #000;
+  padding: 20px 20px 40px;
+  box-sizing: border-box;
+}
+
+.tab-content-area-mine .mine-tilt-works-root {
+  min-height: auto;
+  padding: 24px 12px 48px;
+}
+
+.works-grid-works {
+  column-count: 4;
+  column-gap: 16px;
+}
+
+/* 3D 卡片容器 */
+.photo-tilt-works {
+  display: block;
+  break-inside: avoid;
+  margin-bottom: 16px;
+}
+
+.photo-card-works {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card-img-works {
+  width: 100%;
+  display: block;
+}
+
+/* 个人主页作品卡片：点击图片打开与作品页相同的大图预览 */
+.mine-tilt-media-zoom {
+  cursor: zoom-in;
+  line-height: 0;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+.mine-tilt-media-zoom:focus-visible {
+  outline: 2px solid rgba(129, 140, 248, 0.75);
+  outline-offset: 2px;
+}
+
+.card-info-works {
+  padding: 12px;
+}
+
+.card-title-works {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #ffffff;
+}
+
+.card-desc-works {
+  font-size: 12px;
+  color: #b0b0b0;
+  margin: 0;
+}
+
+.mine-tilt-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #2a2a2a;
+}
+
+.mine-tilt-card-foot-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.mine-tilt-cat {
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: #a78bfa;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.mine-tilt-cat:hover {
+  color: #fff;
+  background: rgba(99, 102, 241, 0.28);
+}
+
+.mine-tilt-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: #ccc;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.mine-tilt-author:hover {
+  color: #fff;
+}
+
+.mine-tilt-avatar-ring {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #333;
+}
+
+.mine-tilt-avatar {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.mine-tilt-author-text-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  gap: 2px;
+}
+
+.mine-tilt-public-id {
+  font-size: 10px;
+  color: #888;
+  font-variant-numeric: tabular-nums;
+}
+
+.mine-tilt-author-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mine-tilt-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.mine-tilt-like:hover {
+  color: #e5e7eb;
+}
+
+.mine-tilt-like.is-liked {
+  color: #f472b6;
+}
+
+.mine-tilt-like-icon {
+  display: block;
+}
+
+.mine-tilt-like-icon.is-filled {
+  color: #f472b6;
+}
+
+.mine-tilt-like-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.mine-tilt-state {
+  padding: 48px 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+}
+
+.mine-tilt-state--loading {
+  color: #a1a1aa;
+}
+
+.mine-tilt-state--empty {
+  color: #71717a;
+  line-height: 1.6;
+}

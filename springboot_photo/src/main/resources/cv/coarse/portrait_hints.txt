@@ -1,0 +1,104 @@
+# 子串命中（不区分大小写）→ 人像；代码内按长度降序匹配，优先长词避免误伤
+velvet
+gown
+parallel bars
+balance beam
+horizontal bar
+football helmet
+crash helmet
+feather boa
+pole vault
+nightgown
+sweatshirt
+band aid
+tee shirt
+badminton racket
+ping-pong ball
+ping pong ball
+chain mail
+military uniform
+bulletproof vest
+academic gown
+bathing cap
+shower cap
+hair spray
+hair slide
+oxygen mask
+hospital gown
+baseball cap
+baseball glove
+tennis racket
+cowboy hat
+running shoe
+cowboy boot
+greatcoat
+trench coat
+seat belt
+neck brace
+ski mask
+pickelhaube
+Windsor tie
+bow tie
+bolo tie
+sleeping bag
+swimming trunks
+rugby ball
+soccer ball
+golf ball
+volleyball
+basketball
+scuba diver
+ping-pong
+ping pong
+badminton
+lacrosse
+miniskirt
+mortarboard
+brassiere
+kimono
+trampoline
+snowboard
+skateboard
+wetsuit
+gymnast
+maillot
+ballplayer
+bridegroom
+snorkel
+jersey
+jockey
+poncho
+sarong
+abaya
+cloak
+stole
+suit
+bonnet
+diaper
+knee pad
+shin guard
+necktie
+vestment
+lipstick
+sunglasses
+lab coat
+fur coat
+wig
+bikini
+t-shirt
+sombrero
+face powder
+sunscreen
+perfume
+hoopskirt
+overskirt
+bustle
+handbag
+purse
+backpack
+mitten
+stocking
+apron
+raincoat
+parka
+gym shoe

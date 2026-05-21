@@ -1,0 +1,1534 @@
+.mine-page-mine {
+  width: 100%;
+  min-height: 100%;
+  background-color: #060608;
+  color: #ffffff;
+  box-sizing: border-box;
+  padding-bottom: 80px;
+}
+
+.mine-page-mine--modal-open .mine-hero-mine,
+.mine-page-mine--modal-open .mine-hero-cover-hit {
+  pointer-events: none;
+}
+
+/* 顶部封面：大图 + 底部渐变；拉满时约占主内容区 72%（--mine-hero-base 由 JS 同步） */
+.mine-hero-mine {
+  --mine-hero-base: clamp(200px, 34vh, 300px);
+  --mine-hero-pull: 0px;
+  position: relative;
+  width: 100%;
+  min-height: calc(var(--mine-hero-base) + var(--mine-hero-pull));
+  overflow: hidden;
+  will-change: min-height;
+  background-color: #060608;
+}
+
+.mine-hero-mine--pulling {
+  transition: none;
+}
+
+.mine-hero-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  background: transparent;
+  transform-origin: center top;
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  user-select: none;
+}
+
+.mine-hero-mine--clickable {
+  cursor: pointer;
+}
+
+.mine-hero-cover-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mine-hero-cover-hit:focus-visible {
+  outline: 2px solid rgba(165, 180, 252, 0.85);
+  outline-offset: -4px;
+}
+
+.mine-hero-mine--pulling .mine-hero-cover {
+  transition: none;
+}
+
+.mine-hero-mine--pulling .mine-hero-scrim {
+  transition: none;
+}
+
+.mine-hero-mine:not(.mine-hero-mine--pulling) .mine-hero-scrim {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.45s ease,
+    height 0.45s ease;
+}
+
+/* 拉满定格：大图展窗感（视差/蒙层由 JS 绑定 heroPull） */
+.mine-hero-mine--locked {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.mine-hero-scrim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72%;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    #060608 0%,
+    rgba(6, 6, 8, 0.92) 18%,
+    rgba(8, 8, 12, 0.45) 48%,
+    transparent 100%
+  );
+  transform-origin: center bottom;
+  will-change: transform, background, height;
+}
+
+.mine-hero-floating {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 28px 22px;
+  box-sizing: border-box;
+  transform-origin: center bottom;
+  will-change: transform;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mine-hero-mine--pulling .mine-hero-floating {
+  transition: none;
+}
+
+/* 黑色信息区：从获赞/关注/粉丝起，含操作与 Tab */
+.mine-profile-surface {
+  position: relative;
+  z-index: 4;
+  margin-top: -1px;
+  background-color: #060608;
+  border-top: none;
+  padding-bottom: 4px;
+}
+
+/* 头像 + 名字 横排（在封面底部） */
+
+/* 头像 */
+.avatar-wrap-mine {
+  flex-shrink: 0;
+}
+
+.avatar-mine {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #2d3344;
+  border: 4px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+}
+
+/* 右侧文字 */
+.profile-text-mine {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nick-name-mine {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.nick-name-mine--on-cover {
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+
+.profile-id-mine {
+  font-size: 15px;
+  color: #999;
+  margin: 0;
+}
+
+.profile-id-mine--on-cover {
+  color: rgba(248, 250, 252, 0.92);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+}
+
+/* 数据（位于黑色 surface 内） */
+.stats-row-mine {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  padding: 20px 30px 16px;
+}
+
+.stats-row-mine__metrics {
+  display: flex;
+  flex-shrink: 0;
+  gap: 40px;
+}
+
+.mine-bio-mine {
+  flex: 1;
+  min-width: 0;
+  margin: 2px 0 0;
+  padding-top: 2px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #b4b4bc;
+  word-break: break-word;
+}
+
+.mine-bio-mine--empty {
+  color: #52525b;
+}
+
+@media (max-width: 640px) {
+  .stats-row-mine {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .mine-bio-mine {
+    padding-top: 0;
+  }
+}
+
+.mine-edit-bio-input {
+  min-height: 64px;
+  resize: vertical;
+}
+
+.stat-number-mine {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.stat-text-mine {
+  font-size: 13px;
+  color: #999;
+  margin-top: 4px;
+}
+
+/* 按钮 */
+.action-btn-row-mine {
+  padding: 0 30px 20px;
+}
+
+.action-btn-row-mine--dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .action-btn-row-mine--dual {
+    grid-template-columns: 1fr;
+  }
+}
+
+.edit-profile-btn-mine {
+  width: 100%;
+  padding: 10px 0;
+  background-color: transparent;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.upload-work-btn-mine {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.upload-work-btn-mine--muted {
+  background: #2a2a33;
+  color: #aaa;
+  border: 1px solid #444;
+  font-weight: 500;
+}
+
+.upload-work-btn-mine--muted:hover {
+  color: #fff;
+  border-color: #666;
+}
+
+.profile-visitor-actions-mine {
+  width: 100%;
+}
+
+.follow-btn-mine {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.follow-btn-mine:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.following-btn-mine {
+  width: 100%;
+  padding: 10px 0;
+  background-color: transparent;
+  border: 1px solid #555;
+  border-radius: 6px;
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.following-btn-mine:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.mine-profile-error {
+  margin: 16px 30px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  font-size: 13px;
+}
+
+.mine-tab-placeholder {
+  padding: 48px 24px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+/* 标签 */
+.tab-nav-mine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 16px;
+  padding-top: 4px;
+}
+
+.tab-item-mine {
+  width: 120px;
+  padding: 14px 0;
+  font-size: 15px;
+  color: #888;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+}
+
+.tab-divider-mine {
+  width: 1px;
+  height: 16px;
+  background-color: #333;
+  margin: 0 8px;
+}
+
+.tab-item-mine.active-mine {
+  color: #fff;
+  font-weight: 500;
+}
+
+.tab-item-mine.active-mine::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+/* 内容 */
+.tab-content-area-mine {
+  padding: 0;
+  min-width: 0;
+  min-height: 280px;
+  position: relative;
+  z-index: 5;
+  background-color: #060608;
+}
+
+.tab-content-area-mine--blog {
+  scroll-margin-top: 12px;
+}
+
+.mine-blog-panel {
+  padding: 16px 16px 48px;
+  min-width: 0;
+  background-color: #060608;
+}
+
+.mine-blog-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mine-blog-compose-hint--err {
+  color: #fca5a5;
+}
+
+.mine-blog-panel--error {
+  padding: 24px 16px;
+}
+
+/* 个人主页博客列表：复用博客页 BlogFeedCard 样式（仅作用在本面板内） */
+.mine-blog-panel .blog-board__card {
+  position: relative;
+  width: 100%;
+  border: 1px solid rgba(125, 145, 165, 0.15);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.mine-blog-panel .blog-board__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    100deg,
+    transparent 18%,
+    rgba(124, 150, 255, 0.07) 38%,
+    rgba(124, 150, 255, 0.2) 50%,
+    rgba(124, 150, 255, 0.07) 62%,
+    transparent 82%
+  );
+  background-size: 220% 100%;
+  background-position: 88% 50%;
+  background-repeat: no-repeat;
+  transition:
+    background-position 0.55s ease,
+    opacity 0.28s ease;
+}
+
+.mine-blog-panel .blog-board__card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(112, 140, 255, 0.35);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+}
+
+.mine-blog-panel .blog-board__card:hover::before {
+  opacity: 1;
+  background-position: 34% 50%;
+}
+
+.mine-blog-panel .blog-board__card-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 224px;
+  gap: 12px;
+  align-items: center;
+}
+
+.mine-blog-panel .blog-board__card-kicker {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.mine-blog-panel .blog-board__card-signals {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mine-blog-panel .blog-board__card-counters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mine-blog-panel .blog-board__card-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mine-blog-panel .blog-board__card h2 {
+  margin: 0;
+  color: #f5f7ff;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.mine-blog-panel .blog-board__card p {
+  display: -webkit-box;
+  margin-top: 6px;
+  overflow: hidden;
+  color: rgba(226, 232, 255, 0.72);
+  font-size: 13px;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.mine-blog-panel .blog-board__card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 8px;
+  color: rgba(187, 198, 230, 0.72);
+  font-size: 13px;
+}
+
+.mine-blog-panel .blog-board__card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mine-blog-panel .blog-board__card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.mine-blog-panel .blog-board__card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: rgba(221, 229, 255, 0.78);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mine-blog-panel .blog-board__card-actions span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  font-size: 12px;
+  border: 1px solid rgba(125, 145, 165, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.mine-blog-panel .blog-board__card-actions span:first-child {
+  color: #e8eeff;
+  background: rgba(80, 110, 210, 0.13);
+}
+
+.mine-blog-feed-card__edit {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid rgba(129, 140, 248, 0.35);
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #c7d2fe;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mine-blog-feed-card__edit:hover {
+  background: rgba(99, 102, 241, 0.22);
+  color: #e0e7ff;
+}
+
+.mine-work-edit-preview {
+  margin-bottom: 14px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(125, 145, 165, 0.2);
+  background: #141923;
+}
+
+.mine-work-edit-preview img {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.mine-work-edit-preview .mine-upload-hint {
+  margin: 8px 12px 10px;
+}
+
+.mine-blog-panel .blog-board__card-thumb {
+  height: 128px;
+  min-height: 128px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #141923;
+}
+
+.mine-blog-panel .blog-board__card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mine-blog-panel .mine-blog-cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 12px;
+  color: #71717a;
+}
+
+.mine-blog-feed-card__cat {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(99, 102, 241, 0.25);
+  color: #c7d2fe;
+}
+
+.mine-blog-feed-card__cat--success {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+
+.mine-blog-feed-card__cat--done {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+}
+
+.mine-blog-feed-card__cat--attention {
+  background: rgba(234, 179, 8, 0.2);
+  color: #fde047;
+}
+
+.mine-blog-feed-card__cat--severe {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+.mine-blog-feed-card__status {
+  font-size: 11px;
+  color: #fbbf24;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(251, 191, 36, 0.12);
+}
+
+.mine-blog-feed-card__hot {
+  font-size: 11px;
+  color: #86efac;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.mine-blog-feed-card__counter--primary {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(80, 110, 210, 0.2);
+  color: #c7d2fe;
+}
+
+.mine-blog-feed-card__counter--secondary {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+}
+
+.mine-blog-feed-card__tag {
+  font-size: 11px;
+  color: #a1a1aa;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #3f3f46;
+}
+
+@media (max-width: 640px) {
+  .mine-blog-panel .blog-board__card-inner {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .mine-blog-panel .blog-board__card-thumb {
+    order: -1;
+    height: 168px;
+    min-height: 168px;
+  }
+}
+
+.mine-blog-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.mine-blog-filter-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(129, 140, 248, 0.45);
+  background: rgba(79, 70, 229, 0.12);
+  color: #c7d2fe;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.mine-blog-filter-btn:hover {
+  background: rgba(99, 102, 241, 0.22);
+  color: #e0e7ff;
+}
+
+.mine-blog-filter-btn.is-active {
+  border-color: rgba(129, 140, 248, 0.65);
+  background: rgba(79, 70, 229, 0.28);
+  color: #f5f7ff;
+}
+
+.mine-blog-compose-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.5;
+  max-width: 420px;
+}
+
+.mine-upload-hub {
+  max-width: 420px;
+}
+
+.mine-blog-publish--wechat {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mine-blog-editor-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mine-blog-editor-side {
+  overflow-y: auto;
+  padding-right: 12px;
+  border-right: 1px solid #2a2a32;
+  min-width: 0;
+}
+
+.mine-blog-editor-side-title {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #a1a1aa;
+  letter-spacing: 0.04em;
+}
+
+.mine-blog-editor-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: #121218;
+  border-radius: 10px;
+  border: 1px solid #2a2a32;
+}
+
+.mine-blog-editor-title-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid #2a2a32;
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 20px 24px 16px;
+  outline: none;
+}
+
+.mine-blog-editor-title-input::placeholder {
+  color: #52525b;
+}
+
+.mine-blog-editor-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px 16px;
+}
+
+.mine-blog-editor-md {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: #121218;
+  border-radius: 10px;
+  border: 1px solid #2a2a32;
+}
+
+.mine-blog-editor-md-head {
+  flex-shrink: 0;
+  padding: 14px 16px 0;
+  border-bottom: 1px solid #2a2a32;
+}
+
+.mine-blog-editor-md-head .mine-blog-editor-side-title {
+  margin-bottom: 4px;
+}
+
+.mine-blog-editor-md-hint {
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #71717a;
+}
+
+.mine-blog-editor-md-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 14px;
+  overflow: hidden;
+}
+
+.mine-blog-md-pane {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  overflow: auto;
+  resize: none;
+}
+
+.mine-blog-md-apply {
+  border-color: #7c3aed !important;
+  background: rgba(124, 58, 237, 0.2) !important;
+}
+
+.mine-blog-md-error {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: #f87171;
+}
+
+.mine-blog-editor-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 1px solid #2a2a32;
+  flex-shrink: 0;
+}
+
+.mine-blog-editor-footer-hint {
+  font-size: 12px;
+  color: #71717a;
+}
+
+.mine-blog-cover-row--stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.mine-blog-cover-preview--wide {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  border: none;
+  background: transparent;
+}
+
+.mine-upload-hub-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 4px;
+  border-radius: 10px;
+  background: #0f0f14;
+  border: 1px solid #2a2a32;
+}
+
+.mine-upload-hub-tab {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #a1a1aa;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.mine-upload-hub-tab.is-active {
+  background: rgba(99, 102, 241, 0.25);
+  color: #fff;
+}
+
+.mine-upload-hub-body {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding-right: 4px;
+}
+
+.mine-upload-embedded .mine-upload-dialog-head {
+  display: none;
+}
+
+.mine-blog-publish .mine-upload-label select.mine-upload-input {
+  cursor: pointer;
+}
+
+.mine-blog-cover-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 6px;
+}
+
+.mine-blog-cover-preview {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.mine-blog-cover-preview img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.mine-blog-cover-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #71717a;
+  padding: 6px;
+  text-align: center;
+  line-height: normal;
+  background: #18181b;
+  border: 1px dashed #3f3f46;
+  border-radius: inherit;
+}
+
+.mine-blog-cover-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.mine-blog-cover-pick {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.mine-blog-cover-clear {
+  margin-top: 8px;
+  border: none;
+  background: transparent;
+  color: #f87171;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mine-blog-md-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mine-blog-md-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.mine-blog-md-tabs button {
+  border: 1px solid #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mine-blog-md-tabs button.is-active {
+  border-color: #8b5cf6;
+  color: #fff;
+}
+
+.mine-blog-md-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 8px;
+}
+
+.mine-blog-md-toolbar button {
+  min-width: 32px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #3f3f46;
+  background: #18181b;
+  color: #e4e4e7;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mine-blog-md-toolbar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mine-blog-md-editor {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+  background: #0f0f14;
+  color: #e4e4e7;
+}
+
+.mine-blog-md-preview {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #3f3f46;
+  background: #0f0f14;
+  color: #e4e4e7;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.mine-blog-md-preview img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+/* 上传作品弹窗 */
+.mine-upload-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+}
+
+.mine-upload-dialog {
+  width: 100%;
+  max-width: 420px;
+  background: #16161e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+}
+
+.mine-upload-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.mine-upload-dialog-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.mine-upload-close {
+  border: none;
+  background: transparent;
+  color: #888;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.mine-upload-close:hover {
+  color: #fff;
+}
+
+.mine-upload-error {
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  font-size: 13px;
+}
+
+.mine-upload-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #a1a1aa;
+}
+
+.mine-upload-input,
+.mine-upload-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #3f3f46;
+  background: #0f0f14;
+  color: #fff;
+  font-size: 14px;
+}
+
+.mine-upload-textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+
+.mine-upload-file-label .mine-upload-file {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.mine-upload-file-name {
+  font-size: 12px;
+  color: #71717a;
+  word-break: break-all;
+}
+
+.mine-upload-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mine-upload-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+}
+
+.mine-upload-btn--ghost {
+  background: transparent;
+  border: 1px solid #444;
+  color: #ccc;
+}
+
+.mine-upload-btn--primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+}
+
+.mine-upload-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.mine-edit-logout-wrap {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mine-upload-btn--logout {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  color: #fca5a5;
+}
+
+.mine-upload-btn--logout:hover:not(:disabled) {
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.65);
+}
+
+.mine-upload-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.mine-upload-tag {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #3f3f46;
+  background: #18181b;
+  color: #a1a1aa;
+  font-size: 13px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  cursor: pointer;
+  line-height: 1.3;
+}
+
+.mine-upload-tag:hover:not(:disabled) {
+  border-color: #6366f1;
+  color: #e4e4e7;
+}
+
+.mine-upload-tag.is-active {
+  border-color: #8b5cf6;
+  background: rgba(99, 102, 241, 0.2);
+  color: #fff;
+}
+
+.mine-upload-tag:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mine-upload-hint {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #71717a;
+}
+
+.mine-upload-hint-strong {
+  margin-left: 6px;
+  color: #e4e4e7;
+  font-weight: 600;
+}
+
+.mine-upload-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #a1a1aa;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.mine-upload-check input {
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: #8b5cf6;
+}
+
+/* 编辑主页弹窗（加宽以容纳头像 + 背景预览） */
+.mine-edit-dialog.mine-upload-dialog {
+  max-width: 520px;
+}
+
+.mine-edit-row {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 520px) {
+  .mine-edit-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mine-edit-preview-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.mine-edit-field-label {
+  font-size: 12px;
+  color: #a1a1aa;
+  font-weight: 600;
+}
+
+.mine-edit-avatar-preview {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: #2d3344;
+}
+
+.mine-edit-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mine-edit-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #3b4258;
+}
+
+.mine-edit-cover-preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 120px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #060608;
+}
+
+.mine-edit-cover-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.mine-edit-file-btn {
+  margin-bottom: 0;
+}
+
+.mine-edit-cover-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.mine-edit-adjust-cover-btn {
+  align-self: flex-end;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(129, 140, 248, 0.45);
+  background: rgba(79, 70, 229, 0.2);
+  color: rgba(237, 242, 255, 0.92);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.mine-edit-adjust-cover-btn:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.35);
+  border-color: rgba(165, 180, 252, 0.55);
+}
+
+.mine-edit-adjust-cover-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mine-edit-hint {
+  margin: 0 0 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #71717a;
+}
+
+/* 博客编辑弹窗：必须写在 .mine-upload-dialog 之后，覆盖默认 420px 宽度 */
+.mine-upload-dialog.mine-upload-hub.mine-upload-hub--blog {
+  width: min(96vw, 1680px);
+  max-width: min(96vw, 1680px);
+  height: min(94vh, 900px);
+  max-height: min(94vh, 900px);
+  padding: 14px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.mine-upload-dialog.mine-upload-hub--blog .mine-upload-dialog-head,
+.mine-upload-dialog.mine-upload-hub--blog .mine-upload-hub-tabs {
+  flex-shrink: 0;
+}
+
+.mine-upload-dialog.mine-upload-hub--blog .mine-upload-hub-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.mine-upload-dialog.mine-upload-hub--blog .mine-blog-publish--wechat {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mine-upload-dialog.mine-upload-hub--blog .mine-blog-editor-layout {
+  min-height: min(56vh, 520px);
+}
+
+.mine-upload-dialog.mine-upload-hub--blog .mine-blog-editor-side .mine-upload-label {
+  margin-bottom: 14px;
+}
+
+.mine-upload-dialog.mine-upload-hub--blog .mine-blog-editor-footer {
+  flex-shrink: 0;
+  gap: 16px;
+}
+
+.mine-upload-dialog.mine-upload-hub--blog .mine-blog-editor-footer-hint {
+  flex: 1;
+  min-width: 140px;
+}
+
+@media (max-width: 1280px) {
+  .mine-upload-dialog.mine-upload-hub--blog {
+    width: min(98vw, 1280px);
+    max-width: min(98vw, 1280px);
+  }
+
+  .mine-blog-editor-layout {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .mine-blog-editor-md {
+    grid-column: 1 / -1;
+    min-height: 280px;
+    max-height: 42vh;
+  }
+}
+
+@media (max-width: 860px) {
+  .mine-upload-dialog.mine-upload-hub--blog {
+    width: 98vw;
+    height: 96vh;
+    max-height: 96vh;
+  }
+
+  .mine-upload-dialog.mine-upload-hub--blog .mine-blog-editor-layout {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  .mine-upload-dialog.mine-upload-hub--blog .mine-blog-editor-side {
+    border-right: none;
+    border-bottom: 1px solid #2a2a32;
+    padding-bottom: 16px;
+    max-height: none;
+  }
+
+  .mine-upload-dialog.mine-upload-hub--blog .mine-blog-editor-main,
+  .mine-upload-dialog.mine-upload-hub--blog .mine-blog-editor-md {
+    min-height: 360px;
+    max-height: none;
+  }
+}

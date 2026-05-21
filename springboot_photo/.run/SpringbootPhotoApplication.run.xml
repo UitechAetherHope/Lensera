@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SpringbootPhotoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="springboot_photo" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.photoblog.springboot_photo.SpringbootPhotoApplication" />
+    <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --enable-native-access=ALL-UNNAMED" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

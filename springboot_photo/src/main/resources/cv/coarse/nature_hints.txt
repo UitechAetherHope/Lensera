@@ -1,0 +1,24 @@
+# 子串命中 → 风景（自然地貌/水体/田野等）
+lakeside
+seashore
+promontory
+sandbar
+coral reef
+cliff
+alp
+volcano
+geyser
+mountain
+barn
+hay
+valley
+palisade
+shipwreck
+badlands
+mesa
+butte
+rapeseed
+lakeshore
+seacoast
+ice shelf
+snowfield

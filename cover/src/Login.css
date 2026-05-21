@@ -1,0 +1,404 @@
+/* Login.css */
+/* 全局重置 & 基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Microsoft Yahei', sans-serif;
+}
+
+body {
+  background-color: #07080b;
+  color: #ffffff;
+}
+
+/* 登录页整体容器 - 左右分栏布局 */
+.login-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 左侧视觉区域 - 严格匹配设计图 */
+.login-visual {
+  flex: 1;
+  background: url('https://picsum.photos/seed/photography/1000/1000') no-repeat center center;
+  background-size: cover;
+  position: relative;
+}
+
+.login-visual::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(7,8,11,0.9), rgba(7,8,11,0.6));
+  z-index: 1;
+}
+
+.visual-content {
+  position: relative;
+  z-index: 2;
+  padding: 80px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.visual-title {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: #ffffff;
+}
+
+.visual-desc {
+  font-size: 18px;
+  color: #c0c4cc;
+  margin-bottom: 80px;
+}
+
+.visual-footer {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.5;
+}
+
+/* 右侧登录表单区域 - 严格匹配设计图 */
+.login-form-wrapper {
+  flex: 1;
+  background-color: #0f1118;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.form-subtitle {
+  font-size: 14px;
+  color: #c0c4cc;
+  line-height: 1.5;
+}
+
+/* 登录类型切换标签 */
+.login-type-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  border-bottom: 1px solid #2d2d44;
+  margin-top: 10px;
+}
+
+.tab-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab-btn.active {
+  color: #165dff;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #165dff;
+}
+
+/* 表单输入框 */
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #1a1d29;
+  border-radius: 8px;
+  padding: 0 16px;
+  height: 56px;
+}
+
+.input-icon {
+  font-size: 18px;
+  color: #888;
+  margin-right: 12px;
+}
+
+.form-input {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.form-input::placeholder {
+  color: #888;
+}
+
+/* 密码切换按钮 */
+.password-toggle {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* 验证码输入框 + 获取验证码按钮 */
+.verify-code {
+  display: flex;
+  align-items: center;
+}
+
+.verify-code .form-input {
+  flex: 2;
+}
+
+.get-code-btn {
+  flex: 1;
+  height: 40px;
+  margin-left: 12px;
+  background-color: #2d2d44;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.get-code-btn:hover {
+  background-color: #3d3d5c;
+}
+
+.get-code-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* 记住我 & 忘记密码 */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.remember-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.remember-checkbox input {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  accent-color: #165dff;
+}
+
+.checkbox-label {
+  font-size: 14px;
+  color: #c0c4cc;
+}
+
+.forgot-password {
+  font-size: 14px;
+  color: #165dff;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* 登录按钮 */
+.login-btn {
+  width: 100%;
+  height: 56px;
+  background-color: #165dff;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #0e4bdb;
+}
+
+/* 其他登录方式 */
+.other-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  position: absolute;
+  width: 40%;
+  height: 1px;
+  background-color: #2d2d44;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  font-size: 14px;
+  color: #888;
+  background-color: #0f1118;
+  padding: 0 16px;
+}
+
+.social-login {
+  display: flex;
+  gap: 20px;
+}
+
+.social-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.social-btn:hover {
+  transform: scale(1.1);
+}
+
+.social-btn.google {
+  background-color: #4285f4;
+}
+
+.social-btn.apple {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.social-btn.wechat {
+  background-color: #07c160;
+}
+
+.social-btn.qq {
+  background-color: #12b7f5;
+}
+
+/* 注册引导 */
+.register-guide {
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+  margin-top: 10px;
+}
+
+.register-link {
+  color: #165dff;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+.form-error-msg {
+  color: #f53f3f;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.login-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* 表单提交区域：与上方标题、Tab 的间距与原版一致 */
+.login-form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+/* 响应式适配 - 小屏幕堆叠布局 */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .login-visual {
+    height: 40vh;
+  }
+
+  .visual-content {
+    padding: 40px;
+  }
+
+  .visual-title {
+    font-size: 32px;
+  }
+
+  .login-form-wrapper {
+    padding: 20px;
+    height: 60vh;
+  }
+}

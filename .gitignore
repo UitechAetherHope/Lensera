@@ -1,0 +1,31 @@
+# 本地上传库（部署时 rsync 到服务器 data/Photo_base，勿提交）
+Photo_base/
+
+# 环境变量（含密钥）
+.env
+.env.*
+!.env.example
+
+# 前端
+cover/node_modules/
+cover/dist/
+cover/dist-ssr/
+
+# 后端
+springboot_photo/target/
+springboot_photo/application-local.properties
+springboot_photo/src/main/resources/application-local.properties
+
+# IDE / 系统
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+
+# Docker 数据卷目录（若在项目内初始化）
+data/mysql/
+data/redis/

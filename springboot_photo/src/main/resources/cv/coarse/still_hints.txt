@@ -1,0 +1,106 @@
+# 子串命中 → 静物（器物、食物、室内陈设等非人非景主体）
+studio couch
+sofa
+vase
+goblet
+coffee mug
+pitcher
+water bottle
+wine bottle
+plate
+tray
+bowl
+flowerpot
+teapot
+caldron
+mixing bowl
+spatula
+ladle
+measuring cup
+remote control
+cellular telephone
+iPod
+hand-held computer
+notebook computer
+desktop computer
+monitor
+screen
+keyboard
+computer mouse
+microwave
+oven
+toaster
+rotisserie
+espresso maker
+coffeepot
+wok
+frying pan
+crock pot
+hot pot
+spatula
+broom
+mop
+vacuum
+sewing machine
+rocking chair
+park bench
+four-poster
+bookcase
+china cabinet
+medicine chest
+entertainment center
+wardrobe
+file cabinet
+filing cabinet
+desk
+dining table
+pool table
+barrel
+shopping basket
+shopping cart
+plastic bag
+piggy bank
+soap dispenser
+ballpoint
+rubber eraser
+pencil box
+slide rule
+abacus
+accordion
+acoustic guitar
+electric guitar
+cornet
+French horn
+trombone
+harmonica
+ocarina
+maraca
+marimba
+gong
+drumstick
+drum
+banjo
+cello
+violin
+grand piano
+upright piano
+microphone
+loudspeaker
+tape player
+cassette player
+cassette
+CD player
+radio
+lampshade
+candle
+pillow
+quilt
+comforter
+doormat
+window shade
+window screen
+shoji
+plectrum
+pinwheel
+carousel
+vending machine
