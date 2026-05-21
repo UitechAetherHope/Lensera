@@ -8,6 +8,7 @@ COPY mvnw pom.xml ./
 COPY .mvn .mvn
 COPY src src
 ENV MAVEN_OPTS="-Xmx768m"
+# 默认 pom 已不依赖 DJL（豆包云端分类）；勿加 -Pcv
 RUN chmod +x mvnw && ./mvnw -B -DskipTests package
 
 FROM eclipse-temurin:17-jre-alpine
