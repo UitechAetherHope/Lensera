@@ -15,6 +15,7 @@ import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
@@ -27,6 +28,7 @@ import java.util.Locale;
  * 模型：默认 PyTorch+ResNet18（Zoo 自动下载）；可选 OnnxRuntime + {@code app.cv.onnx-model-url}。
  */
 @Service
+@ConditionalOnProperty(prefix = "app.cv", name = "enabled", havingValue = "true")
 public class WorkImageClassificationService {
 
     private static final Logger log = LoggerFactory.getLogger(WorkImageClassificationService.class);

@@ -1,7 +1,8 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm config set registry https://registry.npmmirror.com \
+    && npm ci
 COPY . .
 # 生产：空字符串 = 浏览器同源，由 Nginx 反代 /api
 ARG VITE_API_BASE_URL=

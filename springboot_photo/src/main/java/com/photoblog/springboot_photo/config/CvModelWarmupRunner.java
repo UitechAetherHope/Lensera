@@ -18,7 +18,7 @@ import java.util.concurrent.Executor;
  */
 @Component
 @Order(100)
-@ConditionalOnProperty(prefix = "app.cv", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "app.cv", name = "enabled", havingValue = "true")
 public class CvModelWarmupRunner implements ApplicationRunner {
 
     private static final Logger log = LoggerFactory.getLogger(CvModelWarmupRunner.class);

@@ -2,9 +2,12 @@
 FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /build
 RUN apk add --no-cache bash
+# 国内 ECS 访问 repo.maven.apache.org 易超时，使用阿里云镜像
+COPY docker/maven-settings.xml /root/.m2/settings.xml
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 COPY src src
+ENV MAVEN_OPTS="-Xmx768m"
 RUN chmod +x mvnw && ./mvnw -B -DskipTests package
 
 FROM eclipse-temurin:17-jre-alpine

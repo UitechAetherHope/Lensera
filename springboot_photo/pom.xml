@@ -45,6 +45,22 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <!-- DJL / PyTorch 原生库不在 Maven Central，需额外仓库（Docker 构建否则会报 Could not find pytorch-native-auto） -->
+    <repositories>
+        <repository>
+            <id>djl-public</id>
+            <name>DJL Maven Repository</name>
+            <url>https://mlrepo.djl.ai/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!--springdata-jpa  操作数据库-->
         <dependency>
