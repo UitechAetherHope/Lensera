@@ -185,6 +185,7 @@
   display: flex;
   align-items: flex-start;
   gap: 28px;
+  flex-wrap: wrap;
   padding: 20px 30px 16px;
 }
 
@@ -194,8 +195,77 @@
   gap: 40px;
 }
 
+.mine-messages-btn {
+  flex-shrink: 0;
+  margin-left: auto;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: #b8b8c4;
+  background: radial-gradient(
+    120% 120% at 30% 20%,
+    rgba(99, 102, 241, 0.14) 0%,
+    rgba(255, 255, 255, 0.06) 45%,
+    rgba(12, 12, 16, 0.4) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 4px 14px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition:
+    color 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+
+.mine-messages-btn__icon {
+  display: block;
+  transition: transform 0.22s ease;
+}
+
+.mine-messages-btn:hover {
+  color: #c7d2fe;
+  border-color: rgba(129, 140, 248, 0.45);
+  background: radial-gradient(
+    120% 120% at 30% 20%,
+    rgba(99, 102, 241, 0.28) 0%,
+    rgba(139, 92, 246, 0.12) 50%,
+    rgba(12, 12, 16, 0.5) 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 0 0 1px rgba(99, 102, 241, 0.2),
+    0 6px 20px rgba(99, 102, 241, 0.22);
+  transform: translateY(-1px);
+}
+
+.mine-messages-btn:hover .mine-messages-btn__icon {
+  transform: scale(1.06);
+}
+
+.mine-messages-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.mine-messages-btn:focus-visible {
+  outline: 2px solid rgba(129, 140, 248, 0.65);
+  outline-offset: 2px;
+}
+
 .mine-bio-mine {
-  flex: 1;
+  flex: 1 1 100%;
+  width: 100%;
   min-width: 0;
   margin: 2px 0 0;
   padding-top: 2px;
@@ -354,7 +424,8 @@
 }
 
 .tab-item-mine {
-  width: 120px;
+  width: 100px;
+  min-width: 72px;
   padding: 14px 0;
   font-size: 15px;
   color: #888;

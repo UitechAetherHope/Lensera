@@ -4,7 +4,7 @@ COPY package.json package-lock.json ./
 RUN npm config set registry https://registry.npmmirror.com \
     && npm ci
 COPY . .
-# 生产：空字符串 = 浏览器同源，由 Nginx 反代 /api
+# Production: empty VITE_API_BASE_URL = same-origin; Nginx proxies /api to backend
 ARG VITE_API_BASE_URL=
 ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 RUN npm run build

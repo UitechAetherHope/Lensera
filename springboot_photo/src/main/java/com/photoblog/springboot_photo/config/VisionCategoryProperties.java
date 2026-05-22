@@ -16,7 +16,7 @@ public class VisionCategoryProperties {
 
     private boolean enabled = true;
 
-    /** 与原先 app.cv.async 一致：true 时上传接口先返回，后台写 category */
+    /** true 时上传接口先返回，后台写 category */
     private boolean async = true;
 
     /**

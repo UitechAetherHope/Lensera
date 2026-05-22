@@ -5,7 +5,9 @@ import com.photoblog.springboot_photo.pojo.ResponseMessage;
 import com.photoblog.springboot_photo.pojo.User;
 import com.photoblog.springboot_photo.pojo.dto.UserMeResponse;
 import com.photoblog.springboot_photo.repostity.UserReposity;
+import com.photoblog.springboot_photo.pojo.dto.InboxMessageDto;
 import com.photoblog.springboot_photo.service.AuthService;
+import com.photoblog.springboot_photo.service.UserInboxService;
 import com.photoblog.springboot_photo.service.UserProfileService;
 import com.photoblog.springboot_photo.util.JwtUtil;
 import org.springframework.http.MediaType;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class UserMeController {
@@ -26,16 +29,19 @@ public class UserMeController {
     private final UserReposity userReposity;
     private final AuthService authService;
     private final UserProfileService userProfileService;
+    private final UserInboxService userInboxService;
 
     public UserMeController(
             JwtUtil jwtUtil,
             UserReposity userReposity,
             AuthService authService,
-            UserProfileService userProfileService) {
+            UserProfileService userProfileService,
+            UserInboxService userInboxService) {
         this.jwtUtil = jwtUtil;
         this.userReposity = userReposity;
         this.authService = authService;
         this.userProfileService = userProfileService;
+        this.userInboxService = userInboxService;
     }
 
     /** 当前登录用户资料（用户名、对外用户号、邮箱），需 Authorization: Bearer */
@@ -47,6 +53,14 @@ public class UserMeController {
                 .orElseThrow(() -> new ApiException(404, "用户不存在"));
         user = authService.assignPublicIdIfMissing(user);
         return ResponseMessage.success(userProfileService.buildMeResponse(user));
+    }
+
+    /** 他人在我的作品/博客下的留言（消息中心） */
+    @GetMapping("/api/user/me/messages")
+    public ResponseMessage<List<InboxMessageDto>> messages(
+            @RequestHeader("Authorization") String authorization) {
+        Integer userId = jwtUtil.parseUserIdFromAuthorization(authorization);
+        return ResponseMessage.success(userInboxService.listIncomingMessages(userId));
     }
 
     /**

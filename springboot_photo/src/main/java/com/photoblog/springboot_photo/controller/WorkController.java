@@ -43,6 +43,14 @@ public class WorkController {
         return ResponseMessage.success(workService.listMine(uid));
     }
 
+    /** 我赞过的他人作品（不含自己作品） */
+    @GetMapping("/api/works/liked")
+    public ResponseMessage<List<WorkListItemResponse>> listLiked(
+            @RequestHeader("Authorization") String authorization) {
+        Integer uid = jwtUtil.parseUserIdFromAuthorization(authorization);
+        return ResponseMessage.success(workService.listLikedOthersWorks(uid));
+    }
+
     /** 按作者 publicId 列出已发布作品（可选登录：likedByMe） */
     @GetMapping("/api/works")
     public ResponseMessage<List<WorkListItemResponse>> listByPublicId(

@@ -50,6 +50,8 @@ function HeartIcon({ filled }) {
  * @param {() => void} [props.onWorkInteract] 点赞后回调（建议仅刷新统计，勿整表重拉）
  * @param {() => void} [props.onWorkDeleted] 删除成功后刷新列表与统计
  * @param {(workId: number) => void} [props.onWorkEdit] 编辑作品
+ * @param {string} [props.emptyMessage] 空列表文案
+ * @param {boolean} [props.unlinkOnUnlike] 取消赞后从列表移除（喜欢页）
  */
 export default function TiltWorksPanel({
   ownerPublicId,
@@ -62,9 +64,11 @@ export default function TiltWorksPanel({
   onWorkInteract,
   onWorkDeleted,
   onWorkEdit,
+  emptyMessage = '暂无作品，点击「上传作品」发布第一张吧',
+  unlinkOnUnlike = false,
 }) {
   const navigate = useNavigate();
-  const authorHref = `/editor/user/${ownerPublicId}`;
+  const defaultAuthorHref = `/editor/user/${ownerPublicId}`;
 
   const [likeBusyId, setLikeBusyId] = useState(null);
   const [deleteBusyId, setDeleteBusyId] = useState(null);
@@ -98,13 +102,16 @@ export default function TiltWorksPanel({
       try {
         const next = liked ? await unlikeWork(workId) : await likeWork(workId);
         if (next) {
-          setResolvedApiItems((prev) =>
-            prev.map((w) =>
+          setResolvedApiItems((prev) => {
+            if (unlinkOnUnlike && liked && !next.likedByMe) {
+              return prev.filter((w) => w.workId !== workId);
+            }
+            return prev.map((w) =>
               w.workId === workId
                 ? { ...w, likeCount: next.likeCount ?? w.likeCount, likedByMe: next.likedByMe }
                 : w,
-            ),
-          );
+            );
+          });
         }
         onWorkInteract?.();
       } catch {
@@ -113,7 +120,7 @@ export default function TiltWorksPanel({
         setLikeBusyId(null);
       }
     },
-    [tokenPresent, navigate, onWorkInteract],
+    [tokenPresent, navigate, onWorkInteract, unlinkOnUnlike],
   );
 
   const displayName = useMemo(() => ownerName || '用户', [ownerName]);
@@ -133,7 +140,10 @@ export default function TiltWorksPanel({
         heading: w.title,
         caption: w.caption || undefined,
         authorName: w.authorName || displayName,
-        authorHref,
+        authorHref:
+          w.authorPublicId != null
+            ? `/editor/user/${w.authorPublicId}`
+            : defaultAuthorHref,
         avatarUrl: w.authorAvatarUrl || null,
         liked: !!w.likedByMe,
         likeCount: w.likeCount,
@@ -181,7 +191,7 @@ export default function TiltWorksPanel({
       heading: photo.title,
       caption: photo.desc || undefined,
       authorName: displayName,
-      authorHref,
+      authorHref: defaultAuthorHref,
       avatarUrl: `https://picsum.photos/seed/u${ownerPublicId}/96/96`,
       liked: like.liked,
       likeCount: like.count,
@@ -190,7 +200,7 @@ export default function TiltWorksPanel({
   }, [
     lbTarget,
     resolvedApiItems,
-    authorHref,
+    defaultAuthorHref,
     displayName,
     likeMap,
     likeBusyId,
@@ -221,7 +231,7 @@ export default function TiltWorksPanel({
       return (
         <>
           <div className="mine-tilt-works-root">
-            <div className="mine-tilt-state mine-tilt-state--empty">暂无作品，点击「上传作品」发布第一张吧</div>
+            <div className="mine-tilt-state mine-tilt-state--empty">{emptyMessage}</div>
           </div>
           {lightbox}
         </>
@@ -234,6 +244,10 @@ export default function TiltWorksPanel({
             {resolvedApiItems.map((w) => {
               const liked = !!w.likedByMe;
               const busy = likeBusyId === w.workId;
+              const cardAuthorHref =
+                w.authorPublicId != null
+                  ? `/editor/user/${w.authorPublicId}`
+                  : defaultAuthorHref;
               return (
                 <Tilt
                   key={w.workId}
@@ -273,10 +287,10 @@ export default function TiltWorksPanel({
                       <div className="mine-tilt-card-foot">
                         <div className="mine-tilt-card-foot-left">
                           <Link
-                            to={authorHref}
+                            to={cardAuthorHref}
                             className="mine-tilt-author"
                             onClick={(e) => e.stopPropagation()}
-                            aria-label={`${displayName}，公开用户号 ${w.authorPublicId ?? ownerPublicId}`}
+                            aria-label={`${w.authorName || displayName}，公开用户号 ${w.authorPublicId ?? ownerPublicId}`}
                           >
                             <span className="mine-tilt-avatar-ring">
                               <img
@@ -367,7 +381,7 @@ export default function TiltWorksPanel({
                     <h4 className="card-title-works">{photo.title}</h4>
                     {photo.desc && <p className="card-desc-works">{photo.desc}</p>}
                     <div className="mine-tilt-card-foot">
-                      <Link to={authorHref} className="mine-tilt-author" onClick={(e) => e.stopPropagation()}>
+                      <Link to={defaultAuthorHref} className="mine-tilt-author" onClick={(e) => e.stopPropagation()}>
                         <span className="mine-tilt-avatar-ring">
                           <img src={`https://picsum.photos/seed/u${ownerPublicId}/40/40`} alt="" className="mine-tilt-avatar" />
                         </span>

@@ -5,8 +5,7 @@
   <mirrors>
     <mirror>
       <id>aliyun-public</id>
-      <!-- 不镜像 djl-public，否则 pytorch-native-auto 仍解析失败 -->
-      <mirrorOf>*,!djl-public</mirrorOf>
+      <mirrorOf>*</mirrorOf>
       <name>Aliyun Maven</name>
       <url>https://maven.aliyun.com/repository/public</url>
     </mirror>

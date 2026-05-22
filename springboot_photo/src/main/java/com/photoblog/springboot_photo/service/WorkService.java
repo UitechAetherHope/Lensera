@@ -29,6 +29,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -57,7 +59,7 @@ public class WorkService {
     private final UserReposity userReposity;
     private final AuthService authService;
     private final WorkVisionCategoryService workVisionCategoryService;
-    private final Executor cvTaskExecutor;
+    private final Executor visionTaskExecutor;
     private final ObjectProvider<WorksFeedRedisCache> worksFeedRedisCacheProvider;
 
     @Value("${app.upload.root:./data/upload-root}")
@@ -72,14 +74,14 @@ public class WorkService {
             UserReposity userReposity,
             AuthService authService,
             WorkVisionCategoryService workVisionCategoryService,
-            @Qualifier("cvTaskExecutor") Executor cvTaskExecutor,
+            @Qualifier("visionTaskExecutor") Executor visionTaskExecutor,
             ObjectProvider<WorksFeedRedisCache> worksFeedRedisCacheProvider) {
         this.workRepository = workRepository;
         this.workLikeRepository = workLikeRepository;
         this.userReposity = userReposity;
         this.authService = authService;
         this.workVisionCategoryService = workVisionCategoryService;
-        this.cvTaskExecutor = cvTaskExecutor;
+        this.visionTaskExecutor = visionTaskExecutor;
         this.worksFeedRedisCacheProvider = worksFeedRedisCacheProvider;
     }
 
@@ -302,6 +304,43 @@ public class WorkService {
     }
 
     /**
+     * 当前用户点赞过的他人已发布作品（不含自己作品；按点赞时间倒序）。
+     */
+    public List<WorkListItemResponse> listLikedOthersWorks(Integer userId) {
+        List<WorkLike> likes = workLikeRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        if (likes.isEmpty()) {
+            return List.of();
+        }
+        List<Long> orderedIds = likes.stream().map(WorkLike::getWorkId).distinct().toList();
+        Map<Long, Work> workById = new HashMap<>();
+        for (Work w : workRepository.findAllById(orderedIds)) {
+            workById.put(w.getWorkId(), w);
+        }
+        List<Work> othersPublished = new ArrayList<>();
+        for (Long id : orderedIds) {
+            Work w = workById.get(id);
+            if (w == null || w.getStatus() != 1 || Objects.equals(w.getUserId(), userId)) {
+                continue;
+            }
+            othersPublished.add(w);
+        }
+        if (othersPublished.isEmpty()) {
+            return List.of();
+        }
+        Map<Integer, User> authorById = batchLoadAuthorsForUserIds(othersPublished);
+        return othersPublished.stream()
+                .map(w -> {
+                    User author = authorById.get(w.getUserId());
+                    if (author == null) {
+                        return null;
+                    }
+                    return buildListItemResponse(w, author, true);
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * 全站作品流：先查作品行，再批量作者、批量点赞，最后组装 DTO；命中 Redis 时跳过重复拼装。
      */
     public List<WorkFeedCardResponse> listPublishedFeed(String category, Optional<Integer> viewerUserId) {
@@ -379,7 +418,7 @@ public class WorkService {
 
     private void runVisionJob(Runnable job) {
         if (workVisionCategoryService.isAsync()) {
-            cvTaskExecutor.execute(job);
+            visionTaskExecutor.execute(job);
         } else {
             job.run();
         }

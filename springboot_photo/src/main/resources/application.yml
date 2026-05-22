@@ -1,7 +1,7 @@
 # 作品图片根目录：放在 YAML 里用 UTF-8 解析，避免 .properties 在部分环境/IDE 下
 # 把 UTF-8 中文误读成 ISO-8859-1 字节从而在磁盘上创建乱码文件夹名。
 #
-# --- 作品 AI 分类：已改用云端视觉大模型（豆包/DeepSeek/通义/智谱），本地 DJL 默认关闭 ---
+# --- 作品 AI 分类：云端视觉大模型（豆包/DeepSeek/通义/智谱）---
 logging:
   level:
     com.photoblog.springboot_photo.service.vision: INFO
@@ -30,12 +30,6 @@ app:
     root: ${APP_UPLOAD_ROOT:C:/Users/MN/Desktop/比赛/计算机设计/第十九届计算机设计大赛/全栈/Photo_base}
   cors:
     allowed-origin-patterns: http://localhost:5173,http://127.0.0.1:5173
-  # 本地 DJL（已弃用，无需 JDK native 参数）
-  cv:
-    enabled: false
-    async: true
-    onnx-model-url: ""
-    onnx-synset-url: ""
   # 云端视觉分类：API Key 写在 application-local.properties；额度用尽按 provider-order 自动降级
   vision:
     enabled: true

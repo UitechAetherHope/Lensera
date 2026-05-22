@@ -12,13 +12,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableAsync
 public class AsyncConfig {
 
-    @Bean(name = "cvTaskExecutor")
-    public Executor cvTaskExecutor() {
+    /** 作品云端视觉分类等后台任务 */
+    @Bean(name = "visionTaskExecutor")
+    public Executor visionTaskExecutor() {
         ThreadPoolTaskExecutor ex = new ThreadPoolTaskExecutor();
         ex.setCorePoolSize(1);
         ex.setMaxPoolSize(2);
         ex.setQueueCapacity(100);
-        ex.setThreadNamePrefix("cv-work-");
+        ex.setThreadNamePrefix("vision-work-");
         /* 队列满时在调用线程执行，避免任务被静默丢弃导致 AI 永远不写库 */
         ex.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         ex.initialize();

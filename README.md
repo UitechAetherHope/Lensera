@@ -80,8 +80,19 @@ docker compose logs -f api
 - 重新初始化数据库：删除卷后再起（**会清空库**）  
   `docker compose down -v && docker compose up -d --build`
 
-### 6. 常见问题
+### 6. 增量更新（已部署过，只改代码）
+
+见 **[deploy/PUSH-PULL.md](deploy/PUSH-PULL.md)**：本机按路径 `git add` 后 `push`；服务器 `git pull` + 仅 `docker compose build/up api web`。  
+**不要**提交或覆盖服务器上的 `.env` 与 `data/Photo_base`。
+
+```bash
+# 服务器快捷方式
+cd ~/Lensera && ./deploy/update-incremental.sh
+```
+
+### 7. 常见问题
 
 - **页面能开但图裂**：检查 `data/Photo_base` 是否完整、`APP_PUBLIC_BASE_URL` 是否与浏览器地址一致（含 `http://`）。
 - **502 / API 失败**：`docker compose logs api`，多为 MySQL 未就绪或 `.env` 密码错误。
 - **邮件验证码发不出**：检查 `.env` 中 QQ SMTP 授权码（16 位，非 QQ 密码）。
+- **改了 `.env` 不生效**：用 `docker compose up -d --force-recreate api`，不要用 `restart`。

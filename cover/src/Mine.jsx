@@ -2,7 +2,8 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { useNavigate, useParams } from 'react-router-dom';
 import './Mine.css';
 import { clearAuth, fetchCurrentUser, readStoredUser } from './api/auth';
-import { fetchWorksByPublicId } from './api/works';
+import { fetchLikedWorks, fetchWorksByPublicId } from './api/works';
+import MineMessagesModal from './MineMessagesModal';
 import { fetchPublicProfile, followUser, unfollowUser } from './api/users';
 import MineBlogPanel from './MineBlogPanel';
 import MineEditProfileModal from './MineEditProfileModal';
@@ -19,6 +20,43 @@ function formatStat(n) {
 
 function apiErrMessage(err) {
   return err?.response?.data?.message || err?.message || '请求失败';
+}
+
+/** 个人主页「消息」图标：双层气泡 + 文内线条 */
+function MineMessagesIcon() {
+  return (
+    <svg
+      className="mine-messages-btn__icon"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      aria-hidden="true"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5.2 7.2c0-2.65 2.85-4.8 6.35-4.8h2.9c3.5 0 6.35 2.15 6.35 4.8v3.1c0 2.65-2.85 4.8-6.35 4.8h-.55l-2.15 1.75v-1.75H11.55c-3.5 0-6.35-2.15-6.35-4.8V7.2Z"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+        opacity="0.42"
+      />
+      <path
+        d="M7.8 10.4c0-2.65 2.85-4.8 6.35-4.8h2.9c3.5 0 6.35 2.15 6.35 4.8v3.1c0 2.65-2.85 4.8-6.35 4.8h-.55l-2.15 1.75v-1.75H14.15c-3.5 0-6.35-2.15-6.35-4.8v-3.1Z"
+        stroke="currentColor"
+        strokeWidth="1.55"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11.2 11.2h5.6M11.2 13.6h3.8"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        opacity="0.72"
+      />
+      <circle cx="18.6" cy="8.1" r="1.15" fill="currentColor" opacity="0.85" />
+    </svg>
+  );
 }
 
 /** 未配置主页背景时的占位图（后续可换为 profile.coverUrl 等字段） */
@@ -142,6 +180,9 @@ export default function Mine() {
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [worksList, setWorksList] = useState([]);
   const [worksLoading, setWorksLoading] = useState(false);
+  const [likedList, setLikedList] = useState([]);
+  const [likedLoading, setLikedLoading] = useState(false);
+  const [messagesOpen, setMessagesOpen] = useState(false);
   const [heroPullPx, setHeroPullPx] = useState(0);
   const [heroLayout, setHeroLayout] = useState(() => computeHeroLayoutMetrics(800));
   const [heroClickAnimating, setHeroClickAnimating] = useState(false);
@@ -197,6 +238,19 @@ export default function Mine() {
       setWorksLoading(false);
     }
   }, [profile?.publicId]);
+
+  const loadLikedWorks = useCallback(async () => {
+    if (!tokenPresent || !isSelf) return;
+    setLikedLoading(true);
+    try {
+      const list = await fetchLikedWorks();
+      setLikedList(Array.isArray(list) ? list : []);
+    } catch {
+      setLikedList([]);
+    } finally {
+      setLikedLoading(false);
+    }
+  }, [tokenPresent, isSelf]);
 
   /** 顶部获赞/关注/粉丝与后端对齐（点赞、取消赞、上传后调用） */
   const refreshProfileStats = useCallback(async () => {
@@ -329,6 +383,16 @@ export default function Mine() {
     }
     void loadWorks();
   }, [loadWorks, profile?.publicId]);
+
+  useEffect(() => {
+    if (activeTab !== 'likes' || !isSelf || !tokenPresent) return;
+    void loadLikedWorks();
+  }, [activeTab, isSelf, tokenPresent, loadLikedWorks]);
+
+  const onLikedWorkInteract = useCallback(() => {
+    void refreshProfileStats();
+    void loadLikedWorks();
+  }, [refreshProfileStats, loadLikedWorks]);
 
   useLayoutEffect(() => {
     const root = mineRootRef.current;
@@ -880,6 +944,17 @@ export default function Mine() {
               <div className="stat-text-mine">粉丝</div>
             </div>
           </div>
+          {isSelf && tokenPresent ? (
+            <button
+              type="button"
+              className="mine-messages-btn"
+              onClick={() => setMessagesOpen(true)}
+              aria-label="消息"
+              title="消息"
+            >
+              <MineMessagesIcon />
+            </button>
+          ) : null}
           {profile?.bio?.trim() ? (
             <p className="mine-bio-mine">{profile.bio.trim()}</p>
           ) : isSelf ? (
@@ -956,6 +1031,21 @@ export default function Mine() {
           >
             博客
           </div>
+          {isSelf && tokenPresent ? (
+            <>
+              <div className="tab-divider-mine" />
+              <div
+                className={`tab-item-mine ${activeTab === 'likes' ? 'active-mine' : ''}`}
+                id="tab-likes-mine"
+                onClick={() => switchTab('likes')}
+                onKeyDown={(e) => e.key === 'Enter' && switchTab('likes')}
+                role="tab"
+                tabIndex={0}
+              >
+                喜欢
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
 
@@ -981,7 +1071,7 @@ export default function Mine() {
           ) : (
             <div className="mine-tab-placeholder">{loading ? '加载作品…' : '登录后可查看自己的作品展示'}</div>
           )
-        ) : (
+        ) : activeTab === 'blog' ? (
           <MineBlogPanel
             publicId={profile?.publicId}
             isSelf={isSelf}
@@ -990,8 +1080,25 @@ export default function Mine() {
             refreshKey={blogListVersion}
             onEditBlog={(post) => openUploadHub({ tab: 'blog', editBlogId: post.blogId })}
           />
+        ) : activeTab === 'likes' && isSelf && tokenPresent ? (
+          <TiltWorksPanel
+            ownerPublicId={Number(profile?.publicId) || 0}
+            ownerName={profile?.userName}
+            apiMode
+            apiLoading={likedLoading}
+            apiItems={likedList}
+            tokenPresent={tokenPresent}
+            canManageWorks={false}
+            onWorkInteract={onLikedWorkInteract}
+            unlinkOnUnlike
+            emptyMessage="暂无赞过的他人作品，去作品页发现喜欢的照片吧"
+          />
+        ) : (
+          <div className="mine-tab-placeholder">登录后可查看「喜欢」</div>
         )}
       </div>
+
+      <MineMessagesModal open={messagesOpen} onClose={() => setMessagesOpen(false)} />
     </div>
   );
 }

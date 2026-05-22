@@ -6,6 +6,12 @@ export async function fetchWorksByPublicId(publicId) {
   return data?.data ?? [];
 }
 
+/** 当前用户赞过的他人已发布作品（须登录） */
+export async function fetchLikedWorks() {
+  const { data } = await client.get('/api/works/liked');
+  return data?.data ?? [];
+}
+
 /**
  * 全站作品流（WorkFeedCardResponse）；不传 category 为全部。
  * @param {string|undefined|null} category

@@ -22,4 +22,7 @@ public interface WorkLikeRepository extends CrudRepository<WorkLike, Long> {
     void deleteByWorkIdAndUserId(Long workId, Integer userId);
 
     void deleteByWorkId(Long workId);
+
+    /** 当前用户点赞记录，按点赞时间倒序（用于「喜欢」页） */
+    List<WorkLike> findByUserIdOrderByCreatedAtDesc(Integer userId);
 }

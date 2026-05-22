@@ -28,9 +28,6 @@
     </scm>
     <properties>
         <java.version>17</java.version>
-        <djl.version>0.27.0</djl.version>
-        <!-- 与 DJL 0.27 的 pytorch-engine 配套，见 https://github.com/deepjavalibrary/djl/blob/master/engines/pytorch/pytorch-engine/README.md -->
-        <djl.pytorch.native.version>2.1.1</djl.pytorch.native.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -102,99 +99,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-        <!-- 本地 DJL 已弃用（作品分类用豆包）；仅 mvn -Pcv 时引入，默认/Docker 均不下载 PyTorch -->
     </dependencies>
-
-    <profiles>
-        <!-- 仅本机显式 -Pcv 时启用（一般不需要，app.cv.enabled=false + 豆包） -->
-        <profile>
-            <id>cv</id>
-            <repositories>
-                <repository>
-                    <id>djl-public</id>
-                    <name>DJL Maven Repository</name>
-                    <url>https://mlrepo.djl.ai/repository/maven-public/</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>ai.djl</groupId>
-                        <artifactId>bom</artifactId>
-                        <version>${djl.version}</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-            <dependencies>
-                <dependency>
-                    <groupId>ai.djl</groupId>
-                    <artifactId>api</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>ai.djl</groupId>
-                    <artifactId>basicdataset</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>ai.djl</groupId>
-                    <artifactId>model-zoo</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>ai.djl.pytorch</groupId>
-                    <artifactId>pytorch-model-zoo</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>ai.djl.pytorch</groupId>
-                    <artifactId>pytorch-engine</artifactId>
-                    <scope>runtime</scope>
-                </dependency>
-                <dependency>
-                    <groupId>ai.djl.pytorch</groupId>
-                    <artifactId>pytorch-native-auto</artifactId>
-                    <version>${djl.pytorch.native.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-                <dependency>
-                    <groupId>ai.djl.onnxruntime</groupId>
-                    <artifactId>onnxruntime-engine</artifactId>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <configuration>
-                            <jvmArguments>-Dfile.encoding=UTF-8 --enable-native-access=ALL-UNNAMED</jvmArguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <!-- 默认不编译本地 DJL 相关类，Docker/生产与 app.cv.enabled=false 一致 -->
-                    <excludes>
-                        <exclude>**/WorkImageClassificationService.java</exclude>
-                        <exclude>**/ImagenetCoarseLabelMapper.java</exclude>
-                        <exclude>**/CvModelWarmupRunner.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
