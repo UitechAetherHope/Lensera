@@ -13,7 +13,9 @@ fi
 echo "==> git pull (only changed files in working tree will update)"
 git pull --ff-only origin main
 
-echo "==> rebuild api + web (mysql/redis unchanged)"
+echo "==> rebuild api + web (uses Docker layer cache + BuildKit Maven/npm cache; NOT --no-cache)"
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
 docker compose build api web
 docker compose up -d api web
 

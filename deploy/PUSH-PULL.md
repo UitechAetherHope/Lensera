@@ -67,7 +67,9 @@ cp -a docker-compose.yml docker-compose.yml.bak.$(date +%Y%m%d) 2>/dev/null || t
 # 拉取（只更新 Git 里变更过的文件）
 git pull --ff-only origin main
 
-# 只重建并启动 api + web（不动 mysql/redis 卷、不读 .env 进 Git）
+# 只重建并启动 api + web（默认会用 Docker 缓存，不会 --no-cache 全量重下）
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
 docker compose build api web
 docker compose up -d api web
 
@@ -94,7 +96,21 @@ docker compose up -d --force-recreate api
 
 ---
 
-## 三、本次更新是否需要改服务器 `.env`？
+## 三、关于 Docker 缓存（不是让你从头下载）
+
+| 命令 | 行为 |
+|------|------|
+| `docker compose build api web` | **默认用缓存**。`pom.xml` / `package-lock.json` 未改时，Maven、npm 依赖层可复用。 |
+| `docker compose build --no-cache api web` | 强制不用缓存，**才会**像第一次一样全量下载，一般不要加。 |
+| `docker compose up -d --build` | 同上，带 build 但**不是** `--no-cache`。 |
+
+本次 Dockerfile 已加 **BuildKit 缓存挂载**（`/root/.m2`、`/root/.npm`），改 Java/前端源码后仍会重新编译，但 **Maven/npm 包不会每次从公网重下**。
+
+若构建仍很慢：多半是 **2G 内存** 上跑 `mvn package` 编译慢，不是每次都重新拉依赖。
+
+---
+
+## 四、本次更新是否需要改服务器 `.env`？
 
 **不需要。** 无新增环境变量；仍用现有 `DOUBAO_API_KEY`、`APP_PUBLIC_BASE_URL` 等。
 
@@ -108,7 +124,7 @@ grep -E '^APP_PUBLIC_BASE_URL=|^DOUBAO_API_KEY=' .env
 
 ---
 
-## 四、验证
+## 五、验证
 
 1. 浏览器打开 `http://你的公网IP`，**Ctrl+F5** 强刷。
 2. 登录 → 个人主页 → 应有 **喜欢** Tab、圆形 **消息** 图标。

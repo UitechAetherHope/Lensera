@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Multi-stage build for Spring Boot (Java 17)
 FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /build
@@ -6,10 +7,15 @@ RUN apk add --no-cache bash
 COPY docker/maven-settings.xml /root/.m2/settings.xml
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
-COPY src src
 ENV MAVEN_OPTS="-Xmx768m"
+RUN chmod +x mvnw
+# Cache Maven deps between builds (only re-download when pom.xml changes)
+RUN --mount=type=cache,target=/root/.m2 \
+    ./mvnw -B -DskipTests dependency:go-offline
+COPY src src
 # Default pom skips local DJL/PyTorch (vision uses Doubao cloud API); do not add -Pcv
-RUN chmod +x mvnw && ./mvnw -B -DskipTests package
+RUN --mount=type=cache,target=/root/.m2 \
+    ./mvnw -B -DskipTests package
 
 FROM eclipse-temurin:17-jre-alpine
 RUN apk add --no-cache curl tzdata \
