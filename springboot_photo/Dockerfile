@@ -8,14 +8,10 @@ COPY docker/maven-settings.xml /root/.m2/settings.xml
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 ENV MAVEN_OPTS="-Xmx768m"
-RUN chmod +x mvnw
-# Cache Maven deps between builds (only re-download when pom.xml changes)
-RUN --mount=type=cache,target=/root/.m2 \
-    ./mvnw -B -DskipTests dependency:go-offline
 COPY src src
-# Default pom skips local DJL/PyTorch (vision uses Doubao cloud API); do not add -Pcv
+# 直接 package（勿用 dependency:go-offline，在弱网下易 SSL 中断且耗时极长）
 RUN --mount=type=cache,target=/root/.m2 \
-    ./mvnw -B -DskipTests package
+    chmod +x mvnw && ./mvnw -B -DskipTests package
 
 FROM eclipse-temurin:17-jre-alpine
 RUN apk add --no-cache curl tzdata \
